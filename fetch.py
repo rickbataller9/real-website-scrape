@@ -3,10 +3,10 @@ from pathlib import Path
 
 CACHE = Path("cache"); CACHE.mkdir(exist_ok=True)
 HEADERS = {"User-Agent": "Mozilla/5.0 (learning project)"}
-FIELDS = ["text", "author", "tags"]
+FIELDS = ["title", "price", "srp", "brand", "in_stock", "url"]
 
 
-def get(url, delay=1.0, ext="html"):
+def get(url, delay=2.0, ext="html"):
     key = CACHE / f"{hashlib.md5(url.encode()).hexdigest()}.{ext}"
     if key.exists():
         return key.read_text(encoding="utf-8")
@@ -24,6 +24,6 @@ def write_csv(rows, path):
         w.writeheader()
         for row in rows:
             row = dict(row)
-            row["tags"] = "|".join(row.get("tags", []))
+            # row["tags"] = "|".join(row.get("tags", []))
             w.writerow(row)
     print(f"{path}: {len(rows)} rows")
